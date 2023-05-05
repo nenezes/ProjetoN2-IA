@@ -8,6 +8,7 @@ public class GenerationUIController : MonoBehaviour
     [SerializeField] private Transform routePrefab;
     [SerializeField] private Transform cityPrefab;
     [SerializeField] private Transform routeContent;
+    private int currentGenIndex;
 
 
     private void Awake() {
@@ -20,14 +21,18 @@ public class GenerationUIController : MonoBehaviour
 
     private void Update() {
         if (Input.GetKeyDown(KeyCode.Space)) {
-            UpdateRoutes();
+            UpdateRoutes(currentGenIndex);
         }
+
+        if (Input.GetKeyDown(KeyCode.Z)) currentGenIndex--;
+        if (Input.GetKeyDown(KeyCode.X)) currentGenIndex++;
+        currentGenIndex = Mathf.Clamp(currentGenIndex, 0, TravelingManager.Instance.generationList.Count - 1);
     }
 
-    private void UpdateRoutes() {
+    private void UpdateRoutes(int generationIndex) {
         ClearContent();
 
-        foreach (Route route in TravelingManager.Instance.currentGeneration.routes) {
+        foreach (Route route in TravelingManager.Instance.generationList[generationIndex].routes) {
             Transform newRouteUI = Instantiate(routePrefab, routeContent);
 
             foreach (GameObject city in route.cityRoute) {

@@ -6,6 +6,7 @@ public class TravelingManager : MonoBehaviour
 {
     public static TravelingManager Instance { get; private set; }
 
+    public List<Generation> generationList = new List<Generation>();
     [SerializeField] private GameObject generationPrefab;
     private Generation lastGeneration;
     public Generation currentGeneration;
@@ -24,6 +25,7 @@ public class TravelingManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q)) {
             first = Instantiate(generationPrefab, this.transform);
             currentGeneration = first.GetComponent<Generation>();
+            generationList.Add(currentGeneration);
             currentGeneration.PopulateGen();
         }
 

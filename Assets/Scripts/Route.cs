@@ -47,7 +47,7 @@ public class Route : MonoBehaviour
 
     }
 
-    public void PopulateRouteCrossover(Route parentFirst, Route parentSecond) {
+    public void PopulateRouteCrossover(Route parentFirst) {
         var count = cityRoute.Count;
         Route child = new Route();
         child.cityRoute.Clear();

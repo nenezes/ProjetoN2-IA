@@ -28,7 +28,7 @@ public class Generation : MonoBehaviour
         for (int i = 0; i < routeAmount; i++) {
             Route newRoute = Instantiate(routePrefab, this.transform).GetComponent<Route>();
             routes.Add(newRoute);
-            newRoute.PopulateRouteCrossover(parentFirst, parentSecond);
+            newRoute.PopulateRouteCrossover(parentFirst);
         }
     }
 
