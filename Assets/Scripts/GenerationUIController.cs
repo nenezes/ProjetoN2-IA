@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GenerationUIController : MonoBehaviour
 {
@@ -8,6 +10,7 @@ public class GenerationUIController : MonoBehaviour
     [SerializeField] private Transform routePrefab;
     [SerializeField] private Transform cityPrefab;
     [SerializeField] private Transform routeContent;
+    [SerializeField] private TextMeshProUGUI generationDrawn;
     private int currentGenIndex;
 
 
@@ -20,26 +23,46 @@ public class GenerationUIController : MonoBehaviour
     }
 
     private void Update() {
-        if (Input.GetKeyDown(KeyCode.Space)) {
+        if (Input.GetKeyDown(KeyCode.Z)) {
+            currentGenIndex--;
+            currentGenIndex = Mathf.Clamp(currentGenIndex, 0, TravelingManager.Instance.generationList.Count - 1);
             UpdateRoutes(currentGenIndex);
         }
 
-        if (Input.GetKeyDown(KeyCode.Z)) currentGenIndex--;
-        if (Input.GetKeyDown(KeyCode.X)) currentGenIndex++;
-        currentGenIndex = Mathf.Clamp(currentGenIndex, 0, TravelingManager.Instance.generationList.Count - 1);
+        if (Input.GetKeyDown(KeyCode.X)) {
+            currentGenIndex++;
+            currentGenIndex = Mathf.Clamp(currentGenIndex, 0, TravelingManager.Instance.generationList.Count - 1);
+            UpdateRoutes(currentGenIndex);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Y)) {
+            currentGenIndex = TravelingManager.Instance.generationList.Count - 1;
+            UpdateRoutes(currentGenIndex);
+        }
     }
 
     private void UpdateRoutes(int generationIndex) {
         ClearContent();
 
+        generationDrawn.text = $"{generationIndex}";
+
         foreach (Route route in TravelingManager.Instance.generationList[generationIndex].routes) {
             Transform newRouteUI = Instantiate(routePrefab, routeContent);
+
+            if (route == TravelingManager.Instance.generationList[generationIndex].GetFit()) {
+                Outline newRouteUIOutline = newRouteUI.gameObject.AddComponent<Outline>();
+                newRouteUIOutline.effectColor = Color.green;
+                newRouteUIOutline.useGraphicAlpha = false;
+                newRouteUIOutline.effectDistance = new Vector2(3, 3);
+            }
 
             foreach (GameObject city in route.cityRoute) {
                 CityUI newCityUI = Instantiate(cityPrefab, newRouteUI.GetComponent<RouteUIController>().cityContent).GetComponent<CityUI>();
                 newCityUI.cityId.text = $"C{city.GetComponent<City>().cityId}";
             }
         }
+
+        RouteRenderer.Instance.RenderRoute(TravelingManager.Instance.generationList[generationIndex].GetFit().cityRoute);
     }
 
     private void ClearContent() {
@@ -50,6 +73,7 @@ public class GenerationUIController : MonoBehaviour
 
     public void Show() {
         gameObject.SetActive(true);
+        UpdateRoutes(currentGenIndex);
     }
 
     public void Hide() {

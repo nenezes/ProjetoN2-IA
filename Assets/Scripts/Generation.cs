@@ -28,7 +28,7 @@ public class Generation : MonoBehaviour
         for (int i = 0; i < routeAmount; i++) {
             Route newRoute = Instantiate(routePrefab, this.transform).GetComponent<Route>();
             routes.Add(newRoute);
-            newRoute.PopulateRouteCrossover(parentFirst);
+            newRoute.PopulateRouteCrossover(parentFirst, parentSecond);
         }
     }
 
@@ -46,7 +46,7 @@ public class Generation : MonoBehaviour
 
             if (secondFittestRoute.totalDistance > routes[i].totalDistance) secondFittestRoute = routes[i];
         }
-        Debug.Log($"1st: {fittestRoute.totalDistance}\n2nd: {secondFittestRoute.totalDistance}");
+        //Debug.Log($"1st: {fittestRoute.totalDistance}\n2nd: {secondFittestRoute.totalDistance}");
     }
 
     public void Clear() {
