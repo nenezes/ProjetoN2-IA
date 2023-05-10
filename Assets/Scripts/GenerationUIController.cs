@@ -11,11 +11,13 @@ public class GenerationUIController : MonoBehaviour
     [SerializeField] private Transform cityPrefab;
     [SerializeField] private Transform routeContent;
     [SerializeField] private TextMeshProUGUI generationDrawn;
-    private int currentGenIndex;
+    private CanvasGroup canvasGroup;
+    public int currentGenIndex;
 
 
     private void Awake() {
         Instance = this;
+        canvasGroup = this.GetComponent<CanvasGroup>();
     }
 
     private void Start() {
@@ -23,6 +25,13 @@ public class GenerationUIController : MonoBehaviour
     }
 
     private void Update() {
+
+        if (TravelingManager.Instance.generationList.Count < 1) return;
+
+        if (TravelingManager.Instance.autoplay) currentGenIndex = TravelingManager.Instance.generationList.Count - 1;
+
+        UpdateRoutes(currentGenIndex);
+
         if (Input.GetKeyDown(KeyCode.Z)) {
             currentGenIndex--;
             currentGenIndex = Mathf.Clamp(currentGenIndex, 0, TravelingManager.Instance.generationList.Count - 1);
@@ -71,12 +80,20 @@ public class GenerationUIController : MonoBehaviour
         }
     }
 
+    public void Toggle() {
+        if (canvasGroup.alpha == 1) Hide();
+        else Show();
+    }
+
     public void Show() {
-        gameObject.SetActive(true);
-        UpdateRoutes(currentGenIndex);
+        canvasGroup.alpha = 1;
+        canvasGroup.interactable = true;
+        canvasGroup.blocksRaycasts = true;
     }
 
     public void Hide() {
-        gameObject.SetActive(false);
+        canvasGroup.alpha = 0;
+        canvasGroup.interactable = false;
+        canvasGroup.blocksRaycasts = false;
     }
 }

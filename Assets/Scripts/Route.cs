@@ -48,7 +48,10 @@ public class Route : MonoBehaviour
             }
         }
 
-        if (totalDistance < TravelingManager.Instance.bestRouteFoundDistance) TravelingManager.Instance.bestRouteFoundDistance = totalDistance;
+        if (totalDistance < TravelingManager.Instance.bestRouteFoundDistance) {
+            TravelingManager.Instance.bestRouteFoundDistance = totalDistance;
+            TravelingManager.Instance.bestRouteFoundGeneration = GenerationUIController.Instance.currentGenIndex;
+        }
     }
 
     public void PopulateRouteCrossover(Route parentFirst, Route parentSecond) {

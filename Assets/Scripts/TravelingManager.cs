@@ -11,8 +11,9 @@ public class TravelingManager : MonoBehaviour
     private Generation lastGeneration;
     public Generation currentGeneration;
     private GameObject first;
-    private bool autoplay = false;
+    public bool autoplay = false;
     public float bestRouteFoundDistance;
+    public int bestRouteFoundGeneration;
 
     private void Awake() {
         Instance = this;
@@ -26,12 +27,7 @@ public class TravelingManager : MonoBehaviour
         }
 
         if (Input.GetKeyDown(KeyCode.Q)) {
-            first = Instantiate(generationPrefab, this.transform);
-            currentGeneration = first.GetComponent<Generation>();
-            generationList.Add(currentGeneration);
-            currentGeneration.PopulateGen();
-            Generation firstGen = first.GetComponent<Generation>();
-            firstGen.SetFittests();
+            SetupFirst();
         }
 
         if (Input.GetKeyDown(KeyCode.W)) {
@@ -55,7 +51,17 @@ public class TravelingManager : MonoBehaviour
         }
     }
 
-    private void NextGeneration() {
+    public void SetupFirst() {
+        first = Instantiate(generationPrefab, this.transform);
+        currentGeneration = first.GetComponent<Generation>();
+        generationList.Add(currentGeneration);
+        currentGeneration.PopulateGen();
+        Generation firstGen = first.GetComponent<Generation>();
+        firstGen.SetFittests();
+
+    }
+
+    public void NextGeneration() {
         lastGeneration = currentGeneration;
 
         GameObject newGenObject = Instantiate(generationPrefab, this.transform);
@@ -69,6 +75,16 @@ public class TravelingManager : MonoBehaviour
         currentGeneration.PopulateGenCrossover();
 
         generationList.Add(currentGeneration);
+    }
+
+    public void Reset() {
+        foreach (Generation item in generationList) {
+            Destroy(item.gameObject);
+        }
+
+        bestRouteFoundGeneration = 0;
+        bestRouteFoundDistance = 9999;
+        generationList.Clear();
     }
 }
 

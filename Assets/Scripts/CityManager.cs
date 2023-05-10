@@ -46,6 +46,8 @@ public class CityManager : MonoBehaviour
         }
 
         cities.Clear();
+        TravelingManager.Instance.Reset();
+        GenerationUIController.Instance.currentGenIndex = 0;
     }
 
     private Vector3 GetRandomSpawnPosition() {
