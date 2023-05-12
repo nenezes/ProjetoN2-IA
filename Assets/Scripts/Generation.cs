@@ -1,7 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
 
 public class Generation : MonoBehaviour
 {
@@ -11,11 +9,7 @@ public class Generation : MonoBehaviour
     private Route fittestRoute;
     private Route secondFittestRoute;
 
-    private int routeAmount = 10;
-
-    private void Start() {
-
-    }
+    private readonly int routeAmount = 10;
 
     public void PopulateGen() {
         for (int i = 0; i < routeAmount; i++) {
