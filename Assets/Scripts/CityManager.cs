@@ -17,10 +17,6 @@ public class CityManager : MonoBehaviour
         Instance = this;
     }
 
-    private void Update() {
-
-    }
-
     private void OnDrawGizmosSelected() {
         Gizmos.DrawSphere(Vector3.zero, spawnRange);
     }
