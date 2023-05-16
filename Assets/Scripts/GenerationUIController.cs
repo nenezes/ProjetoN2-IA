@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using QFSW.QC;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -95,5 +97,12 @@ public class GenerationUIController : MonoBehaviour
         canvasGroup.alpha = 0;
         canvasGroup.interactable = false;
         canvasGroup.blocksRaycasts = false;
+    }
+
+    [Command()]
+    public void SetCurrentGenIndex(int index) {
+        currentGenIndex = index;
+        UpdateRoutes(currentGenIndex);
+        Debug.Log($"Generation {currentGenIndex}'s best route is: {TravelingManager.Instance.generationList[currentGenIndex].GetFit().totalDistance}m.");
     }
 }

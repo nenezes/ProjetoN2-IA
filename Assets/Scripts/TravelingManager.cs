@@ -26,6 +26,7 @@ public class TravelingManager : MonoBehaviour
             else GenerationUIController.Instance.Show();
         }
 
+        /*
         if (Input.GetKeyDown(KeyCode.Q)) {
             SetupFirst();
         }
@@ -43,7 +44,7 @@ public class TravelingManager : MonoBehaviour
             currentGeneration.SetFittests();
         }
 
-        if (Input.GetKeyDown(KeyCode.Space)) autoplay = !autoplay;
+        if (Input.GetKeyDown(KeyCode.Space)) autoplay = !autoplay;*/
 
         if (autoplay) {
             NextGeneration();
@@ -82,7 +83,7 @@ public class TravelingManager : MonoBehaviour
             Destroy(item.gameObject);
         }
 
-        bestRouteFoundGeneration = 0;
+        bestRouteFoundGeneration = -1;
         bestRouteFoundDistance = 9999;
         generationList.Clear();
     }

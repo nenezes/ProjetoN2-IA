@@ -13,10 +13,6 @@ public class Route : MonoBehaviour
         PopulateRoute();
     }
 
-    private void Start() {
-
-    }
-
     public void PopulateRoute() {
         foreach (GameObject city in CityManager.Instance.cities) {
             cityRoute.Add(city);
@@ -50,7 +46,7 @@ public class Route : MonoBehaviour
 
         if (totalDistance < TravelingManager.Instance.bestRouteFoundDistance) {
             TravelingManager.Instance.bestRouteFoundDistance = totalDistance;
-            TravelingManager.Instance.bestRouteFoundGeneration = GenerationUIController.Instance.currentGenIndex;
+            TravelingManager.Instance.bestRouteFoundGeneration = GenerationUIController.Instance.currentGenIndex+1;
         }
     }
 
@@ -85,10 +81,9 @@ public class Route : MonoBehaviour
     }
 
     private void EmplaceSnippetAt(List<GameObject> snippet, int index) {
-        //should use cycleX
         for (int i = 0; i < snippet.Count; i++) {
             int elementCurrentIndex = cityRoute.FindIndex(j => j.gameObject.GetComponent<City>().cityId == snippet[i].gameObject.GetComponent<City>().cityId);
-            Debug.Log($"Element C{snippet[i].gameObject.GetComponent<City>().cityId} is at {elementCurrentIndex}");
+            //Debug.Log($"Element C{snippet[i].gameObject.GetComponent<City>().cityId} is at {elementCurrentIndex}");
             var temp = cityRoute[CycleX(index+i, cityRoute.Count)];
             cityRoute[CycleX(index + i, cityRoute.Count)] = snippet[i];
             cityRoute[elementCurrentIndex] = temp;
@@ -112,9 +107,9 @@ public class Route : MonoBehaviour
             if (GetSnippetTotalDistance(tempSnippet) < GetSnippetTotalDistance(bestSnippet)) bestSnippet = tempSnippet;
         }
 
-        for (int i = 0; i < bestSnippet.Count; i++) {
-            Debug.Log($"Best snippet[{i}] = C{bestSnippet[i].gameObject.GetComponent<City>().cityId}");
-        }
+        //for (int i = 0; i < bestSnippet.Count; i++) {
+            //Debug.Log($"Best snippet[{i}] = C{bestSnippet[i].gameObject.GetComponent<City>().cityId}");
+        //}
 
         return bestSnippet;
     }
@@ -130,33 +125,6 @@ public class Route : MonoBehaviour
     }
 
     private int CycleX(int i, int cycleLength) {
-        /*if (i >= cycleLength) return i - cycleLength;
-        else return i;*/
         return (i % cycleLength);
     }
 }
-
-//calcula menor treixo de 3 cidades do primeiro e do segundo melhor
-//popula aleatóriamente a rota
-//se os treixos dos dois forem de cidades diferentes copia os dois na posiçao
-//senão, usa o treixo do primeiro e reaproveita o maximo do segundo (se todos forem iguais, descarta o segundo completamente)
-//resto é aleatorizado
-
-/*
-var count = cityRoute.Count;
-        Route child = this.GetComponent<Route>();
-        child.cityRoute.Clear();
-
-        var startCut = Random.Range(0, count);
-        var endCut = Random.Range(startCut+1, count);
-        var slice = this.cityRoute.Skip(startCut).Take(endCut - startCut).ToList();
-
-        for (int i = 0; i < count; i++) {
-            if (!slice.Contains(parentFirst.cityRoute[i])) {
-                slice.Add(parentFirst.cityRoute[i]);
-            }
-        }
-        child.cityRoute = slice;
-
-        cityRoute = child.cityRoute;
-*/
