@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using QFSW.QC;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -23,7 +22,7 @@ public class GenerationUIController : MonoBehaviour
     }
 
     private void Start() {
-        Hide();
+        //Hide();
     }
 
     private void Update() {
@@ -98,8 +97,7 @@ public class GenerationUIController : MonoBehaviour
         canvasGroup.interactable = false;
         canvasGroup.blocksRaycasts = false;
     }
-
-    [Command()]
+    
     public void SetCurrentGenIndex(int index) {
         currentGenIndex = index;
         UpdateRoutes(currentGenIndex);

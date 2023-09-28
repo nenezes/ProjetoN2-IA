@@ -59,7 +59,7 @@ public class TravelingManager : MonoBehaviour
         currentGeneration.PopulateGen();
         Generation firstGen = first.GetComponent<Generation>();
         firstGen.SetFittests();
-
+        bestRouteFoundGeneration = 0;
     }
 
     public void NextGeneration() {

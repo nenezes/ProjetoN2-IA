@@ -49,9 +49,9 @@ public class UIController : MonoBehaviour
     }
 
     private void Update() {
-        totalGenerationsText.text = $"GENERATION {TravelingManager.Instance.generationList.Count-1}";
+        totalGenerationsText.text = $"CURRENT GENERATION: {Mathf.Clamp(TravelingManager.Instance.generationList.Count-1, 0, Mathf.Infinity)}";
         shortestRouteDistance.text = $"{TravelingManager.Instance.bestRouteFoundDistance}m";
-        shortestRouteGeneration.text = $"On generation {TravelingManager.Instance.bestRouteFoundGeneration}";
+        shortestRouteGeneration.text = $"Found on generation {TravelingManager.Instance.bestRouteFoundGeneration}";
 
         if (TravelingManager.Instance.generationList.Count < 1) return;
 
